@@ -1,9 +1,13 @@
 import TaskBlock from "./components/TaskBlock"
+import TaskForm from "./components/TaskForm"
 
 function App() {
 
   return (
-    <TaskBlock />
+    <>
+      <TaskForm/>
+      <TaskBlock />
+    </>
   )
 }
 
