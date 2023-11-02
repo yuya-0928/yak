@@ -1,12 +1,12 @@
-import TaskBlock from "./components/TaskBlock"
 import TaskForm from "./components/TaskForm"
+import TaskList from "./components/TaskList"
 
 function App() {
 
   return (
     <>
       <TaskForm/>
-      <TaskBlock />
+      <TaskList/>
     </>
   )
 }
