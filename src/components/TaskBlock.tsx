@@ -1,10 +1,16 @@
 import styled from "styled-components";
+import { TaskType } from "../types/TaskType";
 
 const StyledTaskBlock = styled('div')`
   display: flex;
+  gap: 10px;
 `;
 
-const TaskBlock = () => {
+type Props = {
+  task: TaskType;
+}
+
+const TaskBlock: React.FC<Props> = ({task}) => {
   const onChange = () => {
     console.log("task status changed");
   }
@@ -12,7 +18,9 @@ const TaskBlock = () => {
   return (
     <StyledTaskBlock>
       <input type="checkbox" onChange={onChange} />
-      <p>Task Name</p>
+      <p>TaskId:{task.id}</p>
+      <p>TaskName:{task.taskName}</p>
+      <p>Status:{task.status}</p>
     </StyledTaskBlock>
   )
 }
