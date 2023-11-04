@@ -1,18 +1,10 @@
 import { TaskType } from "../../types/TaskType";
-import createDB from "./createDB";
+import accessDB from "./accessDB";
 
 const getAllTasks = () => {
   return new Promise<TaskType[]>((resolve, reject) => {
-    const DBOpenRequest = window.indexedDB.open('yakDB');
-    DBOpenRequest.onupgradeneeded = () => {
-      const db = DBOpenRequest.result;
+    const DBOpenRequest = accessDB();
 
-      db.onerror = (err) => {
-        console.error('Error loading database.', err);
-      }
-      createDB(DBOpenRequest);
-    }
-    
     DBOpenRequest.onsuccess = () => {
       const db = DBOpenRequest.result;
       const transaction = db.transaction('tasks', 'readonly');
