@@ -2,9 +2,15 @@ import { useEffect, useState } from "react";
 import TaskBlock from "./TaskBlock";
 import getAllTasks from "../services/indexedDB/getAllTasks";
 import { TaskType } from "../types/TaskType";
+import { useSelector } from "../store";
+import { useDispatch } from "react-redux";
+import { tasksUpdateDone } from "../functions/taskListSlice";
+
 
 const TaskList = () => {
   const [tasks, setTasks] = useState<TaskType[]>([]);
+  const isTaskListUpdateNeeded = useSelector((state) => state.taskList.isTaskListUpdateNeeded);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     (async () => {
@@ -15,7 +21,8 @@ const TaskList = () => {
         console.error(err);
       }
     })();
-  }, [])
+    dispatch(tasksUpdateDone())
+  }, [dispatch, isTaskListUpdateNeeded])
 
   useEffect(() => {
     console.log(tasks);

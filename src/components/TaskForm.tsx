@@ -1,7 +1,10 @@
+import { tasksUpdateNeeded } from "../functions/taskListSlice";
 import addTask from "../services/indexedDB/addTask";
 import createDB from "../services/indexedDB/createDB";
+import { useDispatch } from "react-redux";
 
 const TaskForm = () => {
+  const dispatch = useDispatch();
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
@@ -27,6 +30,7 @@ const TaskForm = () => {
         return;
       }
       addTask(dbRequest, taskName);
+      dispatch(tasksUpdateNeeded())
     }
   }
   
