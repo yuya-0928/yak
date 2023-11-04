@@ -1,7 +1,14 @@
 import createDB from "./createDB";
 
 const accessDB = () => {
-  const DBOpenRequest = window.indexedDB.open('yakDB');
+  const dbName = "yakDB";
+
+  const DBOpenRequest = window.indexedDB.open(dbName);
+  DBOpenRequest.onerror = (event) => {
+    console.error("error");
+    console.error(`Database error: ${JSON.stringify(event)}}`)
+  }
+
   DBOpenRequest.onupgradeneeded = () => {
     const db = DBOpenRequest.result;
 

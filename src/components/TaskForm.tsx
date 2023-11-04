@@ -1,6 +1,6 @@
 import { tasksUpdateNeeded } from "../functions/taskListSlice";
+import accessDB from "../services/indexedDB/accessDB";
 import addTask from "../services/indexedDB/addTask";
-import createDB from "../services/indexedDB/createDB";
 import { useDispatch } from "react-redux";
 
 const TaskForm = () => {
@@ -11,25 +11,14 @@ const TaskForm = () => {
     const form = e.currentTarget;
     const formData = new FormData(form);
 
-    const dbName = "yakDB";
-    const dbRequest = indexedDB.open(dbName);
-
-    dbRequest.onerror = (event) => {
-      console.error("error");
-      console.error(`Database error: ${JSON.stringify(event)}}`)
-    }
-    
-    dbRequest.onupgradeneeded = () => {
-      createDB(dbRequest);
-    }
-
-    dbRequest.onsuccess = () => {
+    const DBOpenRequest = accessDB();
+    DBOpenRequest.onsuccess = () => {
       const taskName = formData.get("taskName");
       if (!taskName) {
         console.log("no task name")
         return;
       }
-      addTask(dbRequest, taskName);
+      addTask(DBOpenRequest, taskName);
       dispatch(tasksUpdateNeeded())
     }
   }
