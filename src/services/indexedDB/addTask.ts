@@ -3,7 +3,7 @@ const addTask = (dbRequest: IDBOpenDBRequest, taskName: FormDataEntryValue) => {
   const transaction = db.transaction(["tasks"], "readwrite");
 
   const objectStore = transaction.objectStore("tasks");
-  const request = objectStore.add({taskName: taskName, status: "Waiting"});
+  const request = objectStore.add({taskName: taskName, status: "Waiting", isDeleted: 0});
   request.onsuccess = () => {
     console.log("task added");
   }

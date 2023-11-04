@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import TaskBlock from "./TaskBlock";
-import getAllTasks from "../services/indexedDB/getAllTasks";
 import { TaskType } from "../types/TaskType";
 import { useSelector } from "../store";
 import { useDispatch } from "react-redux";
 import { tasksUpdateDone } from "../functions/taskListSlice";
+import getActiveTasks from "../services/indexedDB/getActiveTasks";
 
 
 const TaskList = () => {
@@ -15,8 +15,8 @@ const TaskList = () => {
   useEffect(() => {
     (async () => {
       try {
-        const allTasks = await getAllTasks();
-        setTasks(allTasks);
+        const activeTasks = await getActiveTasks();
+        setTasks(activeTasks);
       } catch (err) {
         console.error(err);
       }
