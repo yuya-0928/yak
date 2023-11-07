@@ -3,6 +3,7 @@ import { TaskType } from "../types/TaskType";
 import deleteTask from "../services/indexedDB/deleteTask";
 import { useDispatch } from "react-redux";
 import { tasksUpdateNeeded } from "../functions/taskListSlice";
+import { useEffect, useState } from "react";
 
 const StyledTaskBlock = styled('div')`
   display: flex;
@@ -14,6 +15,7 @@ type Props = {
 }
 
 const TaskBlock: React.FC<Props> = ({task}) => {
+  const [isEditMode, setIsEditMode] = useState<boolean>(false);
   const dispatch = useDispatch();
   const onChange = () => {
     console.log("task status changed");
@@ -25,14 +27,33 @@ const TaskBlock: React.FC<Props> = ({task}) => {
     dispatch(tasksUpdateNeeded());
   }
 
+  const changeEditMode = () => {
+    console.log("changeEditMode")
+    setIsEditMode(!isEditMode);
+  }
+
+  useEffect(() => {
+    console.log(isEditMode);
+  }, [isEditMode])
+
   return (
-    <StyledTaskBlock>
-      <input type="checkbox" onChange={onChange} />
-      <p>TaskId:{task.id}</p>
-      <p>TaskName:{task.taskName}</p>
-      <p>Status:{task.status}</p>
-      <button onClick={() => {onTaskDelete(task.id)}}>delete</button>
-    </StyledTaskBlock>
+    <>
+      {isEditMode === false ? (
+        <StyledTaskBlock>
+          <input type="checkbox" onChange={onChange} />
+          <p>TaskId:{task.id}</p>
+          <p>TaskName:{task.taskName}</p>
+          <p>Status:{task.status}</p>
+          <button onClick={() => {onTaskDelete(task.id)}}>delete</button>
+          <button onClick={() => {changeEditMode()}}>Edit</button>
+        </StyledTaskBlock>
+      ): (
+        <StyledTaskBlock>
+          <input type="text" defaultValue={task.taskName} />
+          <button onClick={() => {changeEditMode()}}>Edit</button>
+        </StyledTaskBlock>
+      )}
+    </>
   )
 }
 
